@@ -1,4 +1,4 @@
-import { startWith } from '../utils';
+import { startWith, includes } from '../utils';
 import elementToString from './element.toString';
 import emptyToString from './empty.toString';
 
@@ -14,6 +14,7 @@ import resizeToString from './resize.toString';
 import clipboardToString from './clipboard.toString';
 import wheelToString from './wheel.toString';
 import visibilityToString from './visibility.toString';
+import screenOrientationToString from './screenOrientation.toString';
 
 export default event => {
   event.toString = elementToString;
@@ -30,10 +31,12 @@ export default event => {
   if (startWith(event.type, 'cut')) event.toString = clipboardToString;
   if (startWith(event.type, 'paste')) event.toString = clipboardToString;
   if (startWith(event.type, 'wheel')) event.toString = wheelToString;
-  if (startWith(event.type, 'selectionchange'))
-    event.toString = selectionToString;
   if (startWith(event.type, 'readystate')) event.toString = readyStateToString;
   if (startWith(event.type, 'visibility')) event.toString = visibilityToString;
+  if (startWith(event.type, 'selectionchange'))
+    event.toString = selectionToString;
+  if (includes(event.type, 'orientationchange'))
+    event.toString = screenOrientationToString;
 
   return event;
 };
