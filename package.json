@@ -1,6 +1,6 @@
 {
   "name": "@ymatuhin/watchuser",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "./lib/watchUser.js",
   "scripts": {
