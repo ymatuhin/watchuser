@@ -4,7 +4,7 @@ export const stringKeys = (event: Event): string => {
   if (event.shiftKey) str += '[shift]';
   if (event.altKey) str += '[alt]';
   if (event.ctrlKey) str += '[ctrl]';
-  return str;
+  return str || null;
 };
 
 export const getElement = (event: Event) => event.target || event.srcElement;
