@@ -6,7 +6,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'lib'),
     filename: 'watchuser.js',
-    library: 'WatchUser',
+    library: 'watchUser',
     libraryTarget: 'umd',
     umdNamedDefine: true,
   },

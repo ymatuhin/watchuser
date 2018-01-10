@@ -13,7 +13,8 @@
       right: 0;
       top: 0;
       bottom: 0;
-      overflow: auto;
+      overflow: hidden;
+      overflow-x: auto;
       padding: 12px;
       background: #ccc;
       max-width: 50%;
@@ -763,8 +764,13 @@
   <script src="../lib/watchuser.js"></script>
   <script>
     const $log = document.getElementById('log');
-    const watcher = new WatchUser();
-    watcher.onevent((event) => $log.innerText = event + '\n' + $log.innerText);
+    const onEventFn = (event) => {
+      $log.innerText = event.toString() + '\n' + $log.innerText;
+    }
+
+    watchUser
+      .start()
+      .onEvent(onEventFn);
   </script>
 </body>
 
