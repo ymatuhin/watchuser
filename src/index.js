@@ -34,6 +34,8 @@ const watchUser = (function() {
     return publicApi;
   };
 
+  publicApi.getEvents = () => store.getEvents();
+
   return publicApi;
 })();
 

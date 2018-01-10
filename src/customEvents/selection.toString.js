@@ -1,13 +1,15 @@
 import { clearString } from './helpers';
 
-let prevVal = '';
+let prevVal = null;
 
 export default function() {
-  const sel = document.getSelection();
-  const text = sel.toString();
+  this.toStringCalled = true;
+  const text = document.getSelection
+    ? document.getSelection().toString()
+    : '???';
 
-  if (text === prevVal) return null;
+  if (!this.toStringCalled && text === prevVal) return null;
   prevVal = text;
 
-  return `${this.type} "${clearString({ text })}"`;
+  return `${this.type} ${clearString({ text })}`;
 }

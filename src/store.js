@@ -1,5 +1,35 @@
 import { pointerSupports, includes, startWith, endWith } from './utils';
 
+function skipEvent(config, event) {
+  if (event.toString() === null) return true;
+
+  const { type } = event;
+  const {
+    mergeMouseEvents,
+    disabledEvents,
+    disableMouseMove,
+    deviceEvents,
+  } = config;
+
+  if (mergeMouseEvents) {
+    const isMouse = startWith(type, 'mouse');
+    const isTouch = startWith(type, 'touch');
+    if (pointerSupports && (isMouse || isTouch)) return true;
+  }
+
+  if (disableMouseMove) {
+    const isMoveEvent =
+      endWith(type, 'out') || endWith(type, 'over') || endWith(type, 'move');
+    if (isMoveEvent) return true;
+  }
+
+  if (disabledEvents && disabledEvents.length && includes(disabledEvents, type))
+    return true;
+
+  if (deviceEvents === false && startWith(type, 'device')) return true;
+  return false;
+}
+
 const store = {
   state: {
     active: false,
@@ -27,6 +57,8 @@ const store = {
     this.state.listeners = [];
   },
   addEventAndNotifyListeners(event: Object) {
+    if (skipEvent(this.state.config, event)) return;
+
     this.addEvent(event);
     this.notifyListeners(event);
   },
@@ -34,30 +66,6 @@ const store = {
     this.state.events.push(event);
   },
   notifyListeners(event: Object) {
-    // TODO: export checks to `addEventAndNotifyListeners`
-    const {
-      mergeMouseEvents,
-      disabledEvents,
-      disableMouseMove,
-      deviceEvents,
-    } = this.state.config;
-
-    if (mergeMouseEvents) {
-      const isMouse = startWith(event.type, 'mouse');
-      const isTouch = startWith(event.type, 'touch');
-      if (pointerSupports && (isMouse || isTouch)) return;
-    }
-
-    if (disableMouseMove) {
-      const isMove =
-        endWith(event.type, 'out') ||
-        endWith(event.type, 'over') ||
-        endWith(event.type, 'move');
-      if (isMove) return;
-    }
-
-    if (disabledEvents && includes(disabledEvents, event.type)) return;
-    if (deviceEvents === false && startWith(event.type, 'device')) return;
     this.state.listeners.forEach(listener => listener(event));
   },
   addListener(listener: Function) {

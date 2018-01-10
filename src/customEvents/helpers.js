@@ -40,7 +40,8 @@ export const stringMouseButton = (event: Event): string => {
 const removeEmptyFields = (obj: Object): Object => {
   let newObj = {};
   Object.keys(obj).forEach(propName => {
-    if (obj[propName]) newObj[propName] = obj[propName];
+    if (obj[propName] !== null && obj[propName] !== undefined)
+      newObj[propName] = obj[propName];
   });
   return newObj;
 };
