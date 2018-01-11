@@ -16,7 +16,7 @@ export const stringElement = (event: Event) => {
     element === document.documentElement ||
     element === document.body ||
     element === window;
-  if (isRoot) return element.toString().replace('object ', '');
+  if (isRoot) return null;
 
   const html = element.outerHTML || '';
   const noBreaks = html.replace(/\n/g, '');
