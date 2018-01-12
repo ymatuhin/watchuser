@@ -1,3 +1,5 @@
+import { isNode } from '../env';
+
 export const stringKeys = (event: Event): string => {
   let str = '';
   if (event.metaKey) str += '[meta]';
@@ -10,6 +12,8 @@ export const stringKeys = (event: Event): string => {
 export const getElement = (event: Event) => event.target || event.srcElement;
 
 export const stringElement = (event: Event) => {
+  if (isNode) return '';
+
   const element = getElement(event);
   const isRoot =
     element === document ||

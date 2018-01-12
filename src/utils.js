@@ -1,4 +1,7 @@
+import { isNode } from './env';
+
 export const supportPassive = () => {
+  if (isNode) return;
   var supportsPassive = false;
   try {
     var opts = Object.defineProperty({}, 'passive', {
@@ -9,12 +12,12 @@ export const supportPassive = () => {
     window.addEventListener('testPassive', null, opts);
     window.removeEventListener('testPassive', null, opts);
   } catch (e) {
-    // e
+    return false;
   }
   return supportsPassive;
 };
 
-export const pointerSupports = Boolean(window.PointerEvent);
+export const pointerSupports = isNode ? false : Boolean(window.PointerEvent);
 
 export const includes = (arr: string[] | string, str: string) =>
   arr.indexOf(str) !== -1;
@@ -42,6 +45,7 @@ export const isFunction = fn => typeof fn === 'function';
 // };
 
 export const getAllEvents = (): Object => {
+  if (isNode) return;
   const list = { window: [], document: [] };
 
   for (const method in window) {

@@ -1,6 +1,9 @@
+import { isNode } from '../env';
 import { clearString } from './helpers';
 
 export default function() {
+  if (isNode) return {};
+
   const width =
     window.innerWidth ||
     document.documentElement.clientWidth ||
